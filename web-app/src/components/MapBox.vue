@@ -46,6 +46,12 @@
             <v-card-text class='storycard_description' max-height="200">
               {{ story.description }}
             </v-card-text>
+            <v-card-text>
+              <v-row>
+              <v-chip class='storycard_date' label>{{ getStoryDate(story) }}</v-chip>
+              <v-chip class='storycard_time' label>{{ story.time }}</v-chip>
+              </v-row>
+            </v-card-text>
 
             <v-card-actions>
               <v-btn
@@ -156,6 +162,9 @@ export default {
   methods: {
     getLink (s) {
       return window.location.origin + '/story/' + s.id
+    },
+    getStoryDate (story) {
+      return this.$moment(story.date).format('DD-MM-YYYY')
     },
     async onMapLoaded(evt) {
       this.mapbox = evt.map
@@ -436,6 +445,11 @@ export default {
 .storycard_description
   padding: 10px !important
   text-align: left
+
+.storycard_date
+  margin: 5px !important
+.storycard_time
+  margin: 5px !important
 </style>
 
 
@@ -476,4 +490,7 @@ export default {
     color: red
   100%
     color: black
+
+.v-chip
+  padding: 5px
 </style>

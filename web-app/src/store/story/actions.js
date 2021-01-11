@@ -3,7 +3,7 @@ import api from '@/api'
 import { db } from "@/main.js" // <--- or wherever the config file is
 
 const actions = {
-  async fetchStories ({ commit }) {
+  async fetchStories({ commit }) {
     console.log('fetch stories')
     await db
     return db.collection("stories").get().then((snapshot) => {
@@ -16,7 +16,7 @@ const actions = {
       }))
     })
   },
-  async save ({ dispatch, commit }, story) {
+  async save({ dispatch, commit }, story) {
     console.log('save stories')
     let save = story
     console.log('saving', save)
@@ -41,6 +41,16 @@ const actions = {
     }
     console.log('merged', merged)
     commit('store_creating_story', merged)
+  },
+  async deleteStory({ dispatch }, story) {
+    console.log(story)
+    await db
+    return db.collection("stories").doc(story.id).delete().then(() => {
+      console.log("story successfully deleted!")
+      return dispatch('fetchStories')
+    }).catch(function (error) {
+      console.error("Error removing story: ", error)
+    })
   }
 }
 

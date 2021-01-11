@@ -8,6 +8,12 @@
   >
     <v-app-bar class="story_header" color="black accent-4" dense dark>
       <v-toolbar-title>{{ story.title }}</v-toolbar-title>
+      <v-chip label>
+        {{ getStoryDate(story) }}
+      </v-chip>
+      <v-chip label>
+        {{ story.time }}
+      </v-chip>
       <v-spacer></v-spacer>
       <v-menu
         v-if="showOptions"
@@ -27,7 +33,7 @@
         </template>
 
         <v-list>
-          <v-list-item class="story_header_menu_item">
+          <v-list-item @click="onClickDelete" class="story_header_menu_item">
             <v-list-item-title>DELETE</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -82,11 +88,15 @@ export default {
   }),
 
   methods: {
+    getStoryDate (story) {
+      return this.$moment(story.date).format('DD-MM-YYYY')
+    },
     ...mapActions('auth', [
       'login'
     ]),
     ...mapActions('story', [
-      'fetchStories'
+      'fetchStories',
+      'deleteStory'
     ]),
     ...mapActions('explore', [
       'setCurrentStory'
@@ -98,6 +108,11 @@ export default {
     },
     resetValidation () {
       this.$refs.form.resetValidation()
+    },
+    onClickDelete () {
+      this.deleteStory(this.story).then(() => {
+        this.$router.push('/')
+      })
     }
   }
 }
@@ -131,4 +146,8 @@ export default {
       height: fit-content
       text-align: left
       color: black
+
+.v-chip
+  padding: 5px
+  margin-left: 20px
 </style>
