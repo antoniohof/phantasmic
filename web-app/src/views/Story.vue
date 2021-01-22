@@ -47,13 +47,24 @@
         :stories="[story]"
         locked />
       <p class="story_body_description">{{ story.description }}</p>
-      <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
-        <v-carousel-item v-for="(image, i) in story.images" :src="image.downloadUrl" :key="i"></v-carousel-item>
+      <v-carousel cycle hide-delimiter-background show-arrows-on-hover>
+        <v-carousel-item v-for="(image, i) in story.images" :src="image.downloadUrl" :key="i" contain max-height="80%"
+        ></v-carousel-item>
       </v-carousel>
+      <v-col v-if="displayAudio">
+        <vuetify-audio
+         v-for="(audio, i) in story.audios"
+         :file="audio.downloadUrl"
+         color="black"
+         :key="i"
+         downloadable>
+         </vuetify-audio>
+      </v-col>
     </v-col>
   </v-col>
 </template>
 <script>
+
 import { mapActions, mapGetters } from 'vuex'
 import {
   MapBox
@@ -61,7 +72,8 @@ import {
 export default {
   name: 'newstorypick',
   components: {
-    MapBox
+    MapBox,
+    VuetifyAudio: () => import('vuetify-audio')
   },
   computed: {
         ...mapGetters('story',
@@ -73,6 +85,9 @@ export default {
       ]),
       showOptions () {
         return this.story.authorID === this.getUser.uid
+      },
+      displayAudio () {
+        return this.story.audios && this.story.audios.length > 0
       }
   },
   mounted () {
@@ -82,9 +97,11 @@ export default {
         return story.id === this.$route.params.id
       })
     })
+    console.log(this.story)
   },
   data: () => ({
-    story: null
+    story: null,
+    file: 'http://www.hochmuth.com/mp3/Boccherini_Concerto_478-1.mp3'
   }),
 
   methods: {
