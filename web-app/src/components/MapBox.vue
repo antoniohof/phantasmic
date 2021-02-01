@@ -38,8 +38,9 @@
             </v-list-item>
 
             <v-img
+              v-if="getThumbnail(story)"
               once
-              :src="story.thumbnail.downloadUrl"
+              :src="getThumbnail(story)"
               height="194"
             ></v-img>
 
@@ -160,6 +161,13 @@ export default {
     ])
   },
   methods: {
+    getThumbnail (story) {
+      if (story.thumbnail && story.thumbnail !== 'none') {
+        return story.thumbnail.downloadUrl
+      } else {
+        return null
+      }
+    },
     getLink (s) {
       return window.location.origin + '/story/' + s.id
     },

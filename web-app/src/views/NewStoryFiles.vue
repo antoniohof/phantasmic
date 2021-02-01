@@ -211,7 +211,7 @@ export default {
         images: this.imageFiles,
         videos: this.videoFiles,
         audios: this.audioFiles,
-        thumbnail: this.imageFiles[0]
+        thumbnail: this.imageFiles[0] ? this.imageFiles[0] : 'none'
       }
       this.storeCreatingStory(entity)
 

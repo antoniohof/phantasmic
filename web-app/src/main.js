@@ -6,6 +6,8 @@ import './registerServiceWorker'
 import firebase from 'firebase'
 import vuetify from './plugins/vuetify';
 import Clipboard from 'v-clipboard'
+import VueCoreVideoPlayer from 'vue-core-video-player'
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -18,6 +20,7 @@ Vue.use(require('vue-moment'))
 
 Vue.use(Clipboard)
 
+Vue.use(VueCoreVideoPlayer)
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_APIKEY,

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "phantasmic"
+    "default": "phantasmic",
+    "prod": "phantasmic-f039d"
   }
 }

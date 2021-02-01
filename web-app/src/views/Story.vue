@@ -47,7 +47,7 @@
         :stories="[story]"
         locked />
       <p class="story_body_description">{{ story.description }}</p>
-      <v-carousel cycle hide-delimiter-background show-arrows-on-hover>
+      <v-carousel v-if="displayImages" cycle hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item v-for="(image, i) in story.images" :src="image.downloadUrl" :key="i" contain max-height="80%"
         ></v-carousel-item>
       </v-carousel>
@@ -59,6 +59,16 @@
          :key="i"
          downloadable>
          </vuetify-audio>
+      </v-col>
+      <v-col v-if="displayVideo">
+        <vue-core-video-player
+          v-for="(video, i) in story.videos"
+          :src="video.downloadUrl"
+          :key="i"
+          downloadable
+          color="black"
+          >
+         </vue-core-video-player>
       </v-col>
     </v-col>
   </v-col>
@@ -88,6 +98,12 @@ export default {
       },
       displayAudio () {
         return this.story.audios && this.story.audios.length > 0
+      },
+      displayVideo () {
+        return this.story.videos && this.story.videos.length > 0
+      },
+      displayImages () {
+        return this.story.images && this.story.images.length > 0
       }
   },
   mounted () {
